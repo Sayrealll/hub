@@ -1,369 +1,155 @@
-local Rayfield = loadstring(game:HttpGet("https://sirius.menu/rayfield"))()
-
---// Window
-local Window = Rayfield:CreateWindow({
-    Name = "SAYREAL POGI",
-    LoadingTitle = "ALL IN ONE GAME",
-    LoadingSubtitle = "SAYREAL POGI",
-
-    ConfigurationSaving = {
-        Enabled = false,
-        FolderName = nil,
-        FileName = "SAYREAL Hub"
-    },
-
-    Discord = {
-        Enabled = false,
-        Invite = "noinvitelink",
-        RememberJoins = true
-    },
-
-    KeySystem = true,
-
-    KeySettings = {
-        Title = "SAYREAL KEY SYSTEM",
-        Subtitle = "Key System",
-        Note = "Key In Discord Server",
-        FileName = "kwkwkw",
-        SaveKey = true,
-        GrabKeyFromSite = true,
-        Key = {
-            "https://pastebin.com/raw/ntWcPGKV"
-        }
-    }
-})
-
-
---==================================================
--- HOME TAB
---==================================================
-
-local MainTab = Window:CreateTab("🏠 Home", nil)
-
-MainTab:CreateSection("Main")
-
-
-Rayfield:Notify({
-    Title = "Successfully Executed! ✅",
-    Content = "SAYREAL POGI loaded successfully.",
-    Duration = 5,
-    Image = 13047715178,
-})
-
-
--- Auto Farm
-local AutoFarm = false
-
-MainTab:CreateToggle({
-    Name = "Auto Farm",
-    CurrentValue = false,
-    Flag = "AutoFarm",
-
-    Callback = function(Value)
-        AutoFarm = Value
-
-        if AutoFarm then
-            print("Auto Farm: ON")
-        else
-            print("Auto Farm: OFF")
-        end
-    end,
-})
-
-
--- Auto Buy UI
-local AutoBuyCarrot = false
-
-MainTab:CreateToggle({
-    Name = "Auto Buy Carrot",
-    CurrentValue = false,
-    Flag = "AutoBuyCarrot",
-
-    Callback = function(Value)
-        AutoBuyCarrot = Value
-
-        if AutoBuyCarrot then
-            print("Auto Buy Carrot: ON")
-        else
-            print("Auto Buy Carrot: OFF")
-        end
-    end,
-})
-
-
-MainTab:CreateDivider()
-
-MainTab:CreateSection("Area")
-
-
-MainTab:CreateDropdown({
-    Name = "Select Area",
-
-    Options = {
-        "Starter World",
-        "Pirate Island",
-        "Pineapple Paradise"
-    },
-
-    CurrentOption = {
-        "Starter World"
-    },
-
-    MultipleOptions = false,
-    Flag = "SelectedArea",
-
-    Callback = function(Option)
-        print("Selected Area:", Option)
-    end,
-})
-
-
---==================================================
--- PLAYER TAB
---==================================================
-
-local PlayerTab = Window:CreateTab("⚡ Player", nil)
-
-PlayerTab:CreateSection("Movement")
-
-
--- Infinite Jump
-local InfiniteJump = false
-
-PlayerTab:CreateToggle({
-    Name = "Infinite Jump",
-    CurrentValue = false,
-    Flag = "InfiniteJump",
-
-    Callback = function(Value)
-        InfiniteJump = Value
-    end,
-})
-
-
--- Infinite Jump connection
-local UserInputService = game:GetService("UserInputService")
+-- ADVANCED SERVER BROWSER V4 (Identifiers, Hover-Info, and Persistent ID)
+local HttpService = game:GetService("HttpService")
+local TeleportService = game:GetService("TeleportService")
 local Players = game:GetService("Players")
+local UserInputService = game:GetService("UserInputService")
+local Player = Players.LocalPlayer
 
-local LocalPlayer = Players.LocalPlayer
+local HISTORY_FILE = "join_history.json"
+local joinHistory = {}
 
-UserInputService.JumpRequest:Connect(function()
-    if not InfiniteJump then
-        return
-    end
+-- Load History
+local success, content = pcall(function() return readfile(HISTORY_FILE) end)
+if success then joinHistory = HttpService:JSONDecode(content) end
 
-    local Character = LocalPlayer.Character
-    if not Character then
-        return
-    end
+-- PERSISTENT TOP-RIGHT INFO (Always Visible)
+local PersistentGui = Instance.new("ScreenGui", Player.PlayerGui)
+PersistentGui.Name = "CurrentServerDisplay"
+local CurrentIDLabel = Instance.new("TextLabel", PersistentGui)
+CurrentIDLabel.Size = UDim2.new(0, 300, 0, 20)
+CurrentIDLabel.Position = UDim2.new(1, -310, 0, 10)
+CurrentIDLabel.BackgroundTransparency = 1
+CurrentIDLabel.Text = "CURRENT JOBID: " .. (game.JobId ~= "" and game.JobId or "Studio/Local")
+CurrentIDLabel.TextColor3 = Color3.new(1, 1, 1)
+CurrentIDLabel.TextTransparency = 0.5
+CurrentIDLabel.TextXAlignment = Enum.TextXAlignment.Right
+CurrentIDLabel.Font = Enum.Font.Code
+CurrentIDLabel.TextSize = 14
 
-    local Humanoid = Character:FindFirstChildOfClass("Humanoid")
+-- MAIN UI SETUP
+local ScreenGui = Instance.new("ScreenGui", Player.PlayerGui)
+ScreenGui.Name = "AC_Test_Browser_V4"
 
-    if Humanoid then
-        Humanoid:ChangeState(Enum.HumanoidStateType.Jumping)
+local MainContainer = Instance.new("Frame", ScreenGui)
+MainContainer.Size = UDim2.new(0, 480, 0, 400) -- Slightly wider for the new buttons
+MainContainer.Position = UDim2.new(0.5, -240, 0.5, -200)
+MainContainer.BackgroundTransparency = 1
+
+local Frame = Instance.new("Frame", MainContainer)
+Frame.Size = UDim2.new(1, 0, 1, 0)
+Frame.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
+Frame.BorderSizePixel = 0
+
+local Title = Instance.new("TextLabel", Frame)
+Title.Size = UDim2.new(1, 0, 0, 40)
+Title.Text = "LUNA HUB | HOP SERVER"
+Title.TextColor3 = Color3.new(1, 1, 1)
+Title.BackgroundColor3 = Color3.fromRGB(45, 45, 45)
+
+local ToggleBtn = Instance.new("TextButton", MainContainer)
+ToggleBtn.Size = UDim2.new(0, 30, 0, 30)
+ToggleBtn.Position = UDim2.new(1, -35, 0, 5)
+ToggleBtn.BackgroundColor3 = Color3.fromRGB(200, 50, 50)
+ToggleBtn.Text = "-"
+ToggleBtn.TextColor3 = Color3.new(1, 1, 1)
+
+local ScrollingFrame = Instance.new("ScrollingFrame", Frame)
+ScrollingFrame.Size = UDim2.new(1, -20, 1, -60)
+ScrollingFrame.Position = UDim2.new(0, 10, 0, 50)
+ScrollingFrame.BackgroundTransparency = 1
+ScrollingFrame.ScrollBarThickness = 6
+
+local UIListLayout = Instance.new("UIListLayout", ScrollingFrame)
+UIListLayout.Padding = UDim.new(0, 5)
+
+-- DRAGGING LOGIC
+local dragging, dragStart, startPos
+ToggleBtn.InputBegan:Connect(function(input)
+    if input.UserInputType == Enum.UserInputType.MouseButton1 then
+        dragging = true
+        dragStart = input.Position
+        startPos = MainContainer.Position
     end
 end)
 
-
--- WalkSpeed
-PlayerTab:CreateSlider({
-    Name = "Player Speed",
-
-    Range = {
-        1,
-        350
-    },
-
-    Increment = 1,
-    Suffix = " Speed",
-    CurrentValue = 16,
-    Flag = "PlayerSpeed",
-
-    Callback = function(Value)
-
-        local Character = LocalPlayer.Character
-
-        if not Character then
-            return
-        end
-
-        local Humanoid =
-            Character:FindFirstChildOfClass("Humanoid")
-
-        if Humanoid then
-            Humanoid.WalkSpeed = Value
-        end
-
-    end,
-})
-
-
--- JumpPower
-PlayerTab:CreateSlider({
-    Name = "Jump Power",
-
-    Range = {
-        1,
-        350
-    },
-
-    Increment = 1,
-    Suffix = " Power",
-    CurrentValue = 50,
-    Flag = "JumpPower",
-
-    Callback = function(Value)
-
-        local Character = LocalPlayer.Character
-
-        if not Character then
-            return
-        end
-
-        local Humanoid =
-            Character:FindFirstChildOfClass("Humanoid")
-
-        if Humanoid then
-            Humanoid.JumpPower = Value
-        end
-
-    end,
-})
-
-
-PlayerTab:CreateDivider()
-
-PlayerTab:CreateSection("Custom Speed")
-
-
--- WalkSpeed input
-PlayerTab:CreateInput({
-    Name = "Custom WalkSpeed",
-
-    PlaceholderText = "Enter 1-350",
-
-    RemoveTextAfterFocusLost = true,
-
-    Callback = function(Text)
-
-        local Value = tonumber(Text)
-
-        if not Value then
-            return
-        end
-
-        Value = math.clamp(Value, 1, 350)
-
-        local Character = LocalPlayer.Character
-
-        if not Character then
-            return
-        end
-
-        local Humanoid =
-            Character:FindFirstChildOfClass("Humanoid")
-
-        if Humanoid then
-            Humanoid.WalkSpeed = Value
-        end
-
-    end,
-})
-
-
---==================================================
--- TELEPORT TAB
---==================================================
-
-local TPTab = Window:CreateTab("🏝 Teleports", nil)
-
-TPTab:CreateSection("Locations")
-
-
-TPTab:CreateButton({
-    Name = "Starter Island",
-
-    Callback = function()
-        print("Starter Island selected")
-
-        -- Put your own game's legitimate teleport
-        -- code here.
-    end,
-})
-
-
-TPTab:CreateButton({
-    Name = "Pirate Island",
-
-    Callback = function()
-        print("Pirate Island selected")
-
-        -- Put your own game's legitimate teleport
-        -- code here.
-    end,
-})
-
-
-TPTab:CreateButton({
-    Name = "Pineapple Paradise",
-
-    Callback = function()
-        print("Pineapple Paradise selected")
-
-        -- Put your own game's legitimate teleport
-        -- code here.
-    end,
-})
-
-
---==================================================
--- SETTINGS TAB
---==================================================
-
-local SettingsTab = Window:CreateTab("⚙️ Settings", nil)
-
-SettingsTab:CreateSection("Interface")
-
-
-SettingsTab:CreateButton({
-    Name = "Hide UI",
-
-    Callback = function()
-        Rayfield:SetVisibility(false)
-    end,
-})
-
-
-SettingsTab:CreateButton({
-    Name = "Destroy UI",
-
-    Callback = function()
-        Rayfield:Destroy()
-    end,
-})
-
-
---==================================================
--- CHARACTER RESPAWN SUPPORT
---==================================================
-
-LocalPlayer.CharacterAdded:Connect(function(Character)
-
-    task.wait(1)
-
-    if not Character then
-        return
+UserInputService.InputChanged:Connect(function(input)
+    if dragging and input.UserInputType == Enum.UserInputType.MouseMovement then
+        local delta = input.Position - dragStart
+        MainContainer.Position = UDim2.new(startPos.X.Scale, startPos.X.Offset + delta.X, startPos.Y.Scale, startPos.Y.Offset + delta.Y)
     end
-
-    local Humanoid =
-        Character:FindFirstChildOfClass("Humanoid")
-
-    if Humanoid then
-        print("Character loaded")
-    end
-
 end)
 
-print("================================")
-print(" SAYREAL POGI LOADED")
-print("================================")
+ToggleBtn.MouseButton1Click:Connect(function()
+    Frame.Visible = not Frame.Visible
+    ToggleBtn.Text = Frame.Visible and "-" or "+"
+end)
+
+UserInputService.InputEnded:Connect(function(input)
+    if input.UserInputType == Enum.UserInputType.MouseButton1 then dragging = false end
+end)
+
+-- REFRESH LOGIC
+local function refresh()
+    for _, child in pairs(ScrollingFrame:GetChildren()) do if child:IsA("Frame") then child:Destroy() end end
+
+    local url = "https://games.roblox.com/v1/games/" .. game.PlaceId .. "/servers/Public?sortOrder=Asc&limit=50"
+    local ok, res = pcall(function() return game:HttpGet(url) end)
+
+    if ok then
+        local data = HttpService:JSONDecode(res)
+        for _, server in pairs(data.data) do
+            local sFrame = Instance.new("Frame", ScrollingFrame)
+            sFrame.Size = UDim2.new(1, -10, 0, 60)
+            sFrame.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
+
+            local lastJoined = joinHistory[server.id] or "Never"
+            
+            local info = Instance.new("TextLabel", sFrame)
+            info.Size = UDim2.new(0.6, 0, 1, 0)
+            info.Text = string.format(" Ping: %dms | Players: %d/%d\n Last Joined: %s", server.ping or 0, server.playing, server.maxPlayers, lastJoined)
+            info.TextColor3 = Color3.new(0.8, 0.8, 0.8)
+            info.TextSize = 12
+            info.BackgroundTransparency = 1
+            info.TextXAlignment = Enum.TextXAlignment.Left
+            info.Position = UDim2.new(0, 5, 0, 0)
+
+            -- THE "?" INFO BUTTON
+            local qBtn = Instance.new("TextButton", sFrame)
+            qBtn.Size = UDim2.new(0, 25, 0, 25)
+            qBtn.Position = UDim2.new(0.65, 0, 0.3, 0)
+            qBtn.Text = "?"
+            qBtn.BackgroundColor3 = Color3.fromRGB(80, 80, 80)
+            qBtn.TextColor3 = Color3.new(1, 1, 1)
+
+            local idLabel = Instance.new("TextBox", sFrame) -- TextBox so you can copy the ID
+            idLabel.Size = UDim2.new(0.9, 0, 0, 20)
+            idLabel.Position = UDim2.new(0.05, 0, 1, -20)
+            idLabel.Text = server.id
+            idLabel.BackgroundTransparency = 0.2
+            idLabel.BackgroundColor3 = Color3.new(0,0,0)
+            idLabel.TextColor3 = Color3.new(1, 1, 0)
+            idLabel.Visible = false
+            idLabel.ClearTextOnFocus = false
+            idLabel.TextEditable = false
+
+            qBtn.MouseButton1Click:Connect(function()
+                idLabel.Visible = not idLabel.Visible
+            end)
+
+            local joinBtn = Instance.new("TextButton", sFrame)
+            joinBtn.Size = UDim2.new(0.25, 0, 0.5, 0)
+            joinBtn.Position = UDim2.new(0.72, 0, 0.25, 0)
+            joinBtn.Text = "JOIN"
+            joinBtn.BackgroundColor3 = Color3.fromRGB(0, 120, 200)
+
+            joinBtn.MouseButton1Click:Connect(function()
+                joinHistory[server.id] = os.date("%x %X")
+                writefile(HISTORY_FILE, HttpService:JSONEncode(joinHistory))
+                TeleportService:TeleportToPlaceInstance(game.PlaceId, server.id, Player)
+            end)
+        end
+        ScrollingFrame.CanvasSize = UDim2.new(0, 0, 0, UIListLayout.AbsoluteContentSize.Y)
+    end
+end
+
+refresh()
