@@ -227,21 +227,19 @@ local HomeSection = MainTab:AddSection("Discord", true);
 
 FuncsV3:Button(HomeSection, "Discord invite", "Copy invite link", function()
     local success, err = pcall(function()
-        setclipboard("https://discord.gg/Ev8k5RAU3")
+        -- Fallback mock for testing inside Roblox Studio
+        if type(setclipboard) == "function" then
+            setclipboard("https://discord.gg/Ev8k5RAU3")
+        else
+            -- Print fallback message inside Studio output
+            print("[Studio Mock Clipboard] https://discord.gg/Ev8k5RAU3")
+        end
     end)
 
     if success then
-        if rconsoleprint then
-            rconsoleprint("Discord link copied to clipboard!\n")
-        else
-            print("Discord link copied to clipboard!")
-        end
+        print("Discord link successfully processed!")
     else
-        if rconsoleprint then
-            rconsoleprint("Failed to copy link: " .. tostring(err) .. "\n")
-        else
-            warn("Failed to copy link: " .. tostring(err))
-        end
+        warn("Failed: " .. tostring(err))
     end
 end);
 
