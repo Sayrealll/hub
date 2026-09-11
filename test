@@ -213,7 +213,7 @@ loadstring(game:HttpGet("https://raw.githubusercontent.com/AhmadV99/Speed-Hub-X/
 local FuncsV3 = loadstring(game:HttpGet("https://raw.githubusercontent.com/AhmadV99/Main/main/Library/Example/FuncsV3"))();
 local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/mamafoni281/Speed-hub-x-V5.0-Library/refs/heads/main/Speed-Hub-X-5.0-Library-Source"))():CreateWindow({
     ["Tab Width"] = 250,
-    ["Description"] = " LUNA HUB X   | STEAL AN EGG |  v1.10 ",
+    ["Description"] = " LUNA HUB X   | STEAL AN EGG |  v1.12 ",
     ["Title"] = ""
 });
 
@@ -222,7 +222,7 @@ local MainTab = Library:CreateTab({
     ["Name"] = "Home",
 });
 
-local HomeSection = MainTab:AddSection("Discord", true);
+local HomeSection = MainTab:AddSection("Discord", false);
 
 FuncsV3:Button(HomeSection, "Discord invite", "Copy invite link", function()
     local success, err = pcall(function()
@@ -245,7 +245,7 @@ local SecondTab = Library:CreateTab({
     ["Name"] = "Farm",
 });
 
-local FarmingSection = SecondTab:AddSection("Automation Steal", true);
+local FarmingSection = SecondTab:AddSection("Automation Steal", false);
 
 FuncsV3:Toggle(FarmingSection, "Auto Steal", "Automatically steal eggs from areas", false, function(value1)
 end);
@@ -253,13 +253,52 @@ end);
 FuncsV3:Toggle(FarmingSection, "Prioritize Rift Recipe Eggs", "Prioritize stealing eggs needed for active Rift trade in sacrifice", false, function(value)
 end);
 
-local FarmingSection1 = SecondTab:AddSection("Automation Place Egg", true);
+local FarmingSection1 = SecondTab:AddSection("Automation Place Egg", false);
 
 FuncsV3:Toggle(FarmingSection1, "Auto Place Egg", "Place all unplaced egg in your pen", false, function(value1)
 end);
 
-FuncsV3:Dropdown(FarmingSection1, "Place Egg priority", "Select priority egg option", {"Choose Any Egg", "Highest KG", "Lowest KG", "Highest Money", "Lowest Money"}, "Choose Any Egg", function(selected)
+--FuncsV3:Dropdown(FarmingSection1, "Place Egg priority", "Select priority egg option", {"Choose Any Egg", "Highest KG", "Lowest KG", "Highest Money", "Lowest Money"}, "Choose Any Egg", function(selected)
 
+--end);
+
+local FarmingSection2 = SecondTab:AddSection("Automation Treadmill", true);
+
+FuncsV3:Toggle(FarmingSection2, "Auto Treadmill", "Train on treadmill for speed power", false, function(value1)
+end);
+
+FuncsV3:Toggle(FarmingSection2, "Hide Treadmill", "Hide treadmill underground & block auto treadmill", false, function(value1)
+end);
+
+FuncsV3:Button(FarmingSection2, "Exit From Treadmill", "Clear treadmill effects & jump off", function()
+end);
+
+local FarmingSection3 = SecondTab:AddSection("Automation Hatch & Equip", true);
+
+FuncsV3:Toggle(FarmingSection3, "Auto Hatch", "Automatically hatch ready eggs", false, function()
+end);
+
+FuncsV3:Toggle(FarmingSection3, "Auto Equip Best", "Automatically equip best pets", false, function()
+end);
+
+local FarmingSection4 = SecondTab:AddSection("Automation Favorite", true);
+
+FuncsV3:Toggle(FarmingSection4, "Auto Hatch", "Automatically hatch ready eggs", false, function()
+end);
+
+local FarmingSection5 = SecondTab:AddSection("Automation Fuse Machine", true);
+
+FuncsV3:Toggle(FarmingSection5, "Auto Hatch", "Automatically hatch ready eggs", false, function()
+end);
+
+local FarmingSection6 = SecondTab:AddSection("The Rift and the Abysal Overlord", true);
+
+FuncsV3:Toggle(FarmingSection6, "Auto Hatch", "Automatically hatch ready eggs", false, function()
+end);
+
+local FarmingSection7 = SecondTab:AddSection("Automation Sell", true);
+
+FuncsV3:Toggle(FarmingSection7, "Auto Hatch", "Automatically hatch ready eggs", false, function()
 end);
 
 -- Third tab with all elements
@@ -331,4 +370,3 @@ local SettingsuiSection1 = lol:AddSection("Discord", true);
 
 FuncsV3:Button(SettingsuiSection1, "Discord invite", "Copy invite link", function()
 end);
-
