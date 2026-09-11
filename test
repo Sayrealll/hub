@@ -258,13 +258,13 @@ local FarmingSection1 = SecondTab:AddSection("Automation Place Egg", false);
 FuncsV3:Toggle(FarmingSection1, "Auto Place Egg", "Place all unplaced egg in your pen", false, function(value1)
 end);
 
-local MyDropdown = Tab1:AddDropdown({
-    Title = "Place Egg Priority",
-    Options = {"Choose Any", "Highest KG", "Lowest KG", "Highest Money", "Lowest Money"},
-    Default = "Choose Any",
-    Callback = function(Value)
-    end
-})
+--local MyDropdown = Tab1:AddDropdown({
+    --Title = "Place Egg Priority",
+    --Options = {"Choose Any", "Highest KG", "Lowest KG", "Highest Money", "Lowest Money"},
+    --Default = "Choose Any",
+    --Callback = function(Value)
+    --end
+--})
 
 --FuncsV3:Dropdown(FarmingSection1, "Place Egg priority", "Select priority egg option", {"Choose Any Egg", "Highest KG", "Lowest KG", "Highest Money", "Lowest Money"}, "Choose Any Egg", function(selected)
 
