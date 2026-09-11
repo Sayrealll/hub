@@ -213,7 +213,7 @@ loadstring(game:HttpGet("https://raw.githubusercontent.com/AhmadV99/Speed-Hub-X/
 local FuncsV3 = loadstring(game:HttpGet("https://raw.githubusercontent.com/AhmadV99/Main/main/Library/Example/FuncsV3"))();
 local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/mamafoni281/Speed-hub-x-V5.0-Library/refs/heads/main/Speed-Hub-X-5.0-Library-Source"))():CreateWindow({
     ["Tab Width"] = 250,
-    ["Description"] = " LUNA HUB X   | STEAL AN EGG |  v1.5 ",
+    ["Description"] = " LUNA HUB X   | STEAL AN EGG |  v1.6 ",
     ["Title"] = ""
 });
 
@@ -258,9 +258,9 @@ local FarmingSection1 = SecondTab:AddSection("Automation Place Egg", true);
 FuncsV3:Toggle(FarmingSection1, "Auto Place Egg", "Place all unplaced egg in your pen", false, function(value1)
 end);
 
-FuncsV3:Dropdown(FarmingSection1, "Place Egg priority", "Select priority egg option", {"Choose Any Egg", "Highest KG", "Lowest KG", "Highest Money", "Lowest Money"}, "Choose Any Egg", function(selected)
+--FuncsV3:Dropdown(FarmingSection1, "Place Egg priority", "Select priority egg option", {"Choose Any Egg", "Highest KG", "Lowest KG", "Highest Money", "Lowest Money"}, "Choose Any Egg", function(selected)
     print("Priority selected: " .. tostring(selected))
-end);
+--end);
 
 -- Third tab with all elements
 local ThirdTab = Library:CreateTab({
