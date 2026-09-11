@@ -231,9 +231,17 @@ FuncsV3:Button(HomeSection, "Discord invite", "Copy invite link", function()
     end)
 
     if success then
-        print("Discord link successfully copied to clipboard!")
+        if rconsoleprint then
+            rconsoleprint("Discord link copied to clipboard!\n")
+        else
+            print("Discord link copied to clipboard!")
+        end
     else
-        print("Failed to copy link to clipboard: " .. tostring(err))
+        if rconsoleprint then
+            rconsoleprint("Failed to copy link: " .. tostring(err) .. "\n")
+        else
+            warn("Failed to copy link: " .. tostring(err))
+        end
     end
 end);
 
