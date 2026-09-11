@@ -2070,7 +2070,7 @@ loadstring(game:HttpGet("https://raw.githubusercontent.com/AhmadV99/Speed-Hub-X/
 local FuncsV3 = loadstring(game:HttpGet("https://raw.githubusercontent.com/AhmadV99/Main/main/Library/Example/FuncsV3"))();
 local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/mamafoni281/Speed-hub-x-V5.0-Library/refs/heads/main/Speed-Hub-X-5.0-Library-Source"))():CreateWindow({
     ["Tab Width"] = 250,
-    ["Description"] = " LUNA HUB X   |   STEAL AN EGG   |   v1.1 ",
+    ["Description"] = " LUNA HUB X   |   STEAL AN EGG   |   v1.2 ",
     ["Title"] = ""
 });
 
@@ -2134,13 +2134,12 @@ FuncsV3:Toggle(FarmingSection3, "Auto Hatch", "Automatically hatch ready eggs", 
     isAutoHatching = Value
 
     if isAutoHatching then
-        loadModules()
-
         task.spawn(function()
+            if loadModules then loadModules() end
             while isAutoHatching do
                 pcall(runAutoHatch)
                 Notify("Hatch", "Triggered!", 2)
-                task.wait(1) -- Delay between automatic loops
+                task.wait(1)
             end
         end)
     else
