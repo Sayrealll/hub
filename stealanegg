@@ -1,0 +1,33 @@
+--[[
+	WARNING: Heads up! This script has not been verified by ScriptBlox. Use at your own risk!
+]]
+
+loadstring(game:HttpGet("https://raw.githubusercontent.com/AhmadV99/Speed-Hub-X/main/Settings.lua"))();
+local FuncsV3 = loadstring(game:HttpGet("https://raw.githubusercontent.com/AhmadV99/Main/main/Library/Example/FuncsV3"))();
+local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/mamafoni281/Speed-hub-x-V5.0-Library/refs/heads/main/Speed-Hub-X-5.0-Library-Source"))():CreateWindow({
+    ["Tab Width"] = 160,
+    ["Description"] = "",
+    ["Title"] = "LUNA HUB | STEAL AN EGG | v1.0"
+});
+
+-- Single main tab with all elements
+local MainTab = Library:CreateTab({
+    ["Name"] = "Home",
+    ["Icon"] = "rbxassetid://10723407389"
+});
+
+local FarmingSection = MainTab:AddSection("Discord", true);
+
+FuncsV3:Button(FarmingSection, "Discord invite", "Copy invite link", function()
+end);
+
+-- Second tab with all elements
+local AutoFarm = Library:CreateTab({
+    ["Name"] = "Farm",
+    ["Icon"] = "rbxassetid://10723407389"
+});
+
+local FarmingSection = AutoFarm:AddSection("Discord", true);
+
+FuncsV3:Button(FarmingSection, "Discord invite", "Copy invite link", function()
+end);
