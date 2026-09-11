@@ -1,3 +1,4 @@
+33
 --[[
 	WARNING: Heads up! This script has not been verified by ScriptBlox. Use at your own risk!
 ]]
@@ -21,5 +22,13 @@ local FarmingSection = MainTab:AddSection("Discord", true);
 FuncsV3:Button(FarmingSection, "Discord invite", "Copy invite link", function()
 end);
 
-FuncsV3:Textbox(FarmingSection, "Set Speed", "Enter walk speed value", function(value)
+-- Second tab with all elements
+local AutoFarm = Library:CreateTab({
+    ["Name"] = "Farm",
+    ["Icon"] = "rbxassetid://10723407389"
+});
+
+local FarmingSection = AutoFarm:AddSection("Discord", true);
+
+FuncsV3:Button(FarmingSection, "Discord invite", "Copy invite link", function()
 end);
