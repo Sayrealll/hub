@@ -326,14 +326,14 @@ local FourthTab = Library:CreateTab({
     ["Name"] = "Predictor",
 });
 
-local PredictorSection = FourthTab:AddSection("Pet Predictor", false);
+local PredictorSection = ThirdTab:AddSection("Pet Predictor", false);
 
-FuncsV3:Toggle(ProgressSection, "Pet Predictor", "Automatically hatch ready eggs", false, function()
+FuncsV3:Toggle(PredictorSection, "Pet Predictor", "Automatically hatch ready eggs", false, function()
 end);
 
 local PredictorSection1 = FourthTab:AddSection("Fuse Predictor", false);
 
-FuncsV3:Toggle(ProgressSection1, "Fuse Predictor", "Automatically hatch ready eggs", false, function()
+FuncsV3:Toggle(PredictorSection1, "Fuse Predictor", "Automatically hatch ready eggs", false, function()
 end);
 
 -- Fifth tab with all elements
