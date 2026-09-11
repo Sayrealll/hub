@@ -7,7 +7,7 @@ local FuncsV3 = loadstring(game:HttpGet("https://raw.githubusercontent.com/Ahmad
 local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/mamafoni281/Speed-hub-x-V5.0-Library/refs/heads/main/Speed-Hub-X-5.0-Library-Source"))():CreateWindow({
     ["Tab Width"] = 160,
     ["Description"] = "",
-    ["Title"] = "LUNA HUB"
+    ["Title"] = "LUNA HUB | STEAL AN EGG | v1.0"
 });
 
 -- Single main tab with all elements
