@@ -2,7 +2,64 @@
 --  STEAL AN EGG -- Rebuild v2.0
 --  Clean architecture, no external dependencies
 -- ============================================================
+--ANTI KICK
+local CoreGui = game:GetService("CoreGui")
+local function createNotification(title, message)
+    local ScreenGui = Instance.new("ScreenGui")
+    ScreenGui.Name = "AntiKickNotification"
+    ScreenGui.ResetOnSpawn = false
+    ScreenGui.Parent = CoreGui
 
+    local Frame = Instance.new("Frame")
+    Frame.Size = UDim2.new(0, 250, 0, 100)
+    Frame.Position = UDim2.new(1, -260, 1, -110)
+    Frame.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
+    Frame.BorderSizePixel = 0
+    Frame.BackgroundTransparency = 0.2
+    Frame.Parent = ScreenGui
+
+    local TitleLabel = Instance.new("TextLabel")
+    TitleLabel.Text = title
+    TitleLabel.Font = Enum.Font.SourceSansBold
+    TitleLabel.TextSize = 18
+    TitleLabel.TextColor3 = Color3.fromRGB(255, 85, 0)
+    TitleLabel.BackgroundTransparency = 1
+    TitleLabel.Size = UDim2.new(1, -10, 0, 25)
+    TitleLabel.Position = UDim2.new(0, 5, 0, 5)
+    TitleLabel.TextXAlignment = Enum.TextXAlignment.Left
+    TitleLabel.Parent = Frame
+
+    local MessageLabel = Instance.new("TextLabel")
+    MessageLabel.Text = message
+    MessageLabel.Font = Enum.Font.SourceSans
+    MessageLabel.TextSize = 16
+    MessageLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
+    MessageLabel.BackgroundTransparency = 1
+    MessageLabel.Size = UDim2.new(1, -10, 1, -35)
+    MessageLabel.Position = UDim2.new(0, 5, 0, 30)
+    MessageLabel.TextXAlignment = Enum.TextXAlignment.Left
+    MessageLabel.TextWrapped = true
+    MessageLabel.Parent = Frame
+
+    task.delay(4, function()
+        ScreenGui:Destroy()
+    end)
+end
+
+createNotification("LOL")
+
+local kickAvoidCount = 0
+local ac1 = nil
+
+ac1 = hookmetamethod(game, "__namecall", function(self, ...)
+    local method = getnamecallmethod()
+    if method:lower() == "kick" and self == game.Players.LocalPlayer then
+        kickAvoidCount += 1
+        createNotification("HAHA" .. tostring(kickAvoidCount))
+        return
+    end
+    return ac1(self, ...)
+end)
 -- ============================================================
 -- SERVICES
 -- ============================================================
