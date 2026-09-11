@@ -260,3 +260,50 @@ local PredictorSection = FourthTab:AddSection("Discord", true);
 
 FuncsV3:Button(PredictorSection, "Discord invite", "Copy invite link", function()
 end);
+
+-- Fifth tab with all elements
+local FifthTab = Library:CreateTab({
+    ["Name"] = "ESP",
+    ["Icon"] = "rbxassetid://10723407389"
+});
+
+local ESPSection = FifthTab:AddSection("Discord", true);
+
+FuncsV3:Button(ESPSection, "Discord invite", "Copy invite link", function()
+end);
+
+-- Sixth tab with all elements
+local SixTab = Library:CreateTab({
+    ["Name"] = "Misc",
+    ["Icon"] = "rbxassetid://10723407389"
+});
+
+local MiscSection = SixTab:AddSection("Discord", true);
+
+FuncsV3:Button(MiscSection, "Discord invite", "Copy invite link", function()
+end);
+
+-- Seven tab with all elements
+local SevenTab = Library:CreateTab({
+    ["Name"] = "Settings",
+    ["Icon"] = "rbxassetid://10723407389"
+});
+
+local SettingsSection = SevenTab:AddSection("Discord", true);
+
+FuncsV3:Button(SettingsSection, "Discord invite", "Copy invite link", function()
+end);
+
+-- Eight tab with all elements
+local EightTab = Library:CreateTab({
+    ["Name"] = "Settings Ui",
+    ["Icon"] = "rbxassetid://10723407389"
+});
+
+local SettingsuiSection = EightTab:AddSection("Discord", true);
+
+FuncsV3:Button(SettingsuiSection, "Discord invite", "Copy invite link", function()
+end);
+
+
+
