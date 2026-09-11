@@ -1,0 +1,406 @@
+-- ============================================================
+--  STEAL AN EGG -- Rebuild v2.0
+--  Clean architecture, no external dependencies
+-- ============================================================
+
+-- ============================================================
+-- SERVICES
+-- ============================================================
+local Players           = game:GetService("Players")
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local RunService        = game:GetService("RunService")
+local Workspace         = game:GetService("Workspace")
+local UserInputService  = game:GetService("UserInputService")
+local LocalPlayer       = Players.LocalPlayer
+
+-- ============================================================
+-- SPEED BYPASS (Lutosys/opensrc)
+-- Hook internal validator via getgc + debug API
+-- ============================================================
+local _speedBypassConn   = nil
+local _speedBypassActive = false
+
+local function _activeHum()
+    local c = LocalPlayer.Character
+    if not c then return nil end
+    for _, h in ipairs(c:GetChildren()) do
+        if h:IsA("Humanoid") and not h.PlatformStand then return h end
+    end
+    return c:FindFirstChildOfClass("Humanoid")
+end
+
+local function initSpeedBypass()
+    if type(getgc) ~= "function" or type(hookfunction) ~= "function" or type(islclosure) ~= "function" then
+        warn("[SpeedBypass] missing getgc/hookfunction/islclosure"); return false
+    end
+    local function findFn(nups, line)
+        local ok, r = pcall(function()
+            for _, f in next, getgc() do
+                if typeof(f) == "function" and islclosure(f) then
+                    local upvs = debug.getupvalues(f)
+                    if upvs and #upvs == nups and debug.info(f, "l") == line then
+                        if nups == 10 then
+                            local t = debug.getupvalue(f, 3)
+                            if typeof(t) == "table" and rawget(t, "Humanoid") then return f end
+                        else return f end
+                    end
+                end
+            end
+        end)
+        return ok and r or nil
+    end
+    local func3 = findFn(19, 3)
+    if not func3 then warn("[SpeedBypass] func3 not found"); return false end
+    local v7 = debug.getupvalue(func3, 2)
+    if not v7 then warn("[SpeedBypass] v7 not found"); return false end
+    local ok, err = pcall(function()
+        local orig
+        if type(newlclosure) == "function" then
+            orig = hookfunction(v7, newlclosure(function(p1, p2)
+                if p2 and typeof(p2) == "table" then setmetatable(p2, {}) end
+                return orig(p1, p2)
+            end))
+        else
+            orig = hookfunction(v7, function(p1, p2)
+                if p2 and typeof(p2) == "table" then setmetatable(p2, {}) end
+                return orig(p1, p2)
+            end)
+        end
+    end)
+    if not ok then warn("[SpeedBypass] hookfunction failed:", tostring(err)); return false end
+    print("[SpeedBypass] OK"); _speedBypassActive = true; return true
+end
+
+local function startSpeedBypass(spd)
+    if _speedBypassConn then _speedBypassConn:Disconnect(); _speedBypassConn = nil end
+    if not _speedBypassActive then return end
+    _speedBypassConn = RunService.Heartbeat:Connect(function()
+        local h = _activeHum(); if h then h.WalkSpeed = spd end
+    end)
+end
+
+local function stopSpeedBypass()
+    if _speedBypassConn then _speedBypassConn:Disconnect(); _speedBypassConn = nil end
+    local h = _activeHum(); if h then h.WalkSpeed = 16 end
+end
+
+pcall(initSpeedBypass)
+
+-- ============================================================
+-- MODULE LOADER
+-- ============================================================
+local EggState, PlotState, Assets, RarityModule, AreaEggSlotIdentity, GameRemotes
+local ModulesLoaded = false
+
+local function tryRequire(...)
+    for _, path in ipairs({...}) do
+        local ok, result = pcall(function()
+            local cur = ReplicatedStorage
+            for seg in string.gmatch(path, "[^.]+") do
+                cur = cur:FindFirstChild(seg)
+                if not cur then return nil end
+            end
+            return require(cur)
+        end)
+        if ok and result then return result end
+    end
+    return nil
+end
+
+local function loadModules()
+    if ModulesLoaded then return true end
+    EggState            = tryRequire("Client.EggState",  "Shared.EggState")
+    PlotState           = tryRequire("Client.PlotState", "Shared.PlotState")
+    Assets              = tryRequire("Data.Assets",      "Shared.Assets", "Assets")
+    RarityModule        = tryRequire("Data.Rarity",      "Shared.Rarity", "Rarity")
+    AreaEggSlotIdentity = tryRequire("Shared.Util.AreaEggSlotIdentity", "Util.AreaEggSlotIdentity")
+    GameRemotes         = tryRequire("Shared.Remotes",   "Remotes")
+    ModulesLoaded       = EggState ~= nil and PlotState ~= nil
+    return ModulesLoaded
+end
+
+-- ============================================================
+-- STATE
+-- ============================================================
+local State = {
+    -- Farm
+    running           = false,
+    busy              = false,
+    stealCount        = 0,
+    lockedRecord      = nil,
+    -- Movement
+    speed             = 120,
+    antiGuard         = true,
+    -- Farm rarity filter
+    targetRarities    = {},
+    minEarningRate    = 0,
+    minModelWeight    = 0,
+    maxModelWeight    = 999999999,
+    -- Float
+    floatEnabled      = false,
+    floatHeight       = 3,
+    -- Animation
+    animEnabled       = true,
+    -- Auto Place (independent loop)
+    placeEnabled      = false,
+    placeInterval     = 5,
+    placeMinRarity    = "All",
+    -- Auto Place Pet
+    placePetEnabled      = false,
+    placePetInterval     = 5,
+    placeBestPetEnabled  = false,
+    placeBestPetInterval = 10,
+    -- No Knockback
+    noKnockback       = false,
+    -- Backpack threshold auto place
+    _placing          = false,
+    -- Collect Money
+    collectEnabled    = false,
+    collectInterval   = 60,
+    -- Auto Favorite
+    favPetEnabled     = false,
+    favEggEnabled     = false,
+    favoriteInterval  = 30,
+    favMinRarities    = {},  -- multi-select {[name]=true}
+    -- Auto Hatch (independent loop)
+    hatchEnabled      = false,
+    hatchInterval     = 3,
+    -- Auto Sell
+    sellEnabled       = false,
+    sellAll           = false,
+    sellInterval      = 5,
+    sellMaxRarities   = {},  -- {[name]=true}
+    -- Auto Sell Egg
+    sellEggEnabled    = false,
+    sellEggInterval   = 10,
+    sellEggMaxRarities = {},
+    -- Auto Sell Pet
+    sellPetMaxRarities = {},
+    sellPetInterval   = 5,
+    -- Bat Aura (independent loop)
+    batAura           = false,
+    batInterval       = 0.1,
+    -- ESP
+    espEnabled        = false,
+    -- Mutation filter
+    targetMutations   = {}, -- {["Golden"]=true,...} empty=all
+    -- Misc
+    reducedMap        = false,
+    antiAfk           = false,
+}
+
+-- Base teleport koordinat
+local START_POS = Vector3.new(519.155, 70.576, -356.103)
+local SAFE_POS  = Vector3.new(519.155, 70.576, -356.103)
+
+-- ============================================================
+-- HELPERS
+-- ============================================================
+local function root()
+    local c = LocalPlayer.Character
+    return c and c:FindFirstChild("HumanoidRootPart")
+end
+
+local function hum()
+    local c = LocalPlayer.Character
+    return c and c:FindFirstChildOfClass("Humanoid")
+end
+--[[
+	WARNING: Heads up! This script has not been verified by ScriptBlox. Use at your own risk!
+]]
+
+loadstring(game:HttpGet("https://raw.githubusercontent.com/AhmadV99/Speed-Hub-X/main/Settings.lua"))();
+local FuncsV3 = loadstring(game:HttpGet("https://raw.githubusercontent.com/AhmadV99/Main/main/Library/Example/FuncsV3"))();
+local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/mamafoni281/Speed-hub-x-V5.0-Library/refs/heads/main/Speed-Hub-X-5.0-Library-Source"))():CreateWindow({
+    ["Tab Width"] = 250,
+    ["Description"] = " LUNA HUB X   |   STEAL AN EGG   |   v1.0 ",
+    ["Title"] = ""
+});
+
+-- Single main tab with all elements
+local MainTab = Library:CreateTab({
+    ["Name"] = "Home",
+});
+
+local HomeSection = MainTab:AddSection("Discord", false);
+
+FuncsV3:Button(HomeSection, "Discord invite", "Copy invite link", function()
+    local success, err = pcall(function()
+        if type(setclipboard) == "function" then
+            setclipboard("https://discord.gg/Ev8k5RAU3")
+        else
+            print("[Studio Mock Clipboard] https://discord.gg/Ev8k5RAU3")
+        end
+    end)
+
+    if success then
+        print("Discord link successfully processed!")
+    else
+        warn("Failed: " .. tostring(err))
+    end
+end);
+
+-- 2nd Tab: Farm
+local SecondTab = Library:CreateTab({
+    ["Name"] = "Farm",
+});
+
+local FarmingSection = SecondTab:AddSection("Automation Steal", false);
+
+FuncsV3:Toggle(FarmingSection, "Auto Steal", "Automatically steal eggs from areas", false, function(value1)
+end);
+
+FuncsV3:Toggle(FarmingSection, "Prioritize Rift Recipe Eggs", "Prioritize stealing eggs needed for active Rift trade in sacrifice", false, function(value)
+end);
+
+local FarmingSection1 = SecondTab:AddSection("Automation Place Egg", false);
+
+FuncsV3:Toggle(FarmingSection1, "Auto Place Egg", "Place all unplaced egg in your pen", false, function(value1)
+end);
+
+--FuncsV3:Dropdown(FarmingSection1, "Place Egg priority", "Select priority egg option", {"Choose Any Egg", "Highest KG", "Lowest KG", "Highest Money", "Lowest Money"}, "Choose Any Egg", function(selected)
+
+--end);
+
+local FarmingSection2 = SecondTab:AddSection("Automation Treadmill", false);
+
+FuncsV3:Toggle(FarmingSection2, "Auto Treadmill", "Train on treadmill for speed power", false, function(value1)
+end);
+
+FuncsV3:Toggle(FarmingSection2, "Hide Treadmill", "Hide treadmill underground & block auto treadmill", false, function(value1)
+end);
+
+FuncsV3:Button(FarmingSection2, "Exit From Treadmill", "Clear treadmill effects & jump off", function()
+end);
+
+local FarmingSection3 = SecondTab:AddSection("Automation Hatch & Equip", false);
+
+FuncsV3:Toggle(FarmingSection3, "Auto Hatch", "Automatically hatch ready eggs", false, function()
+end);
+
+FuncsV3:Toggle(FarmingSection3, "Auto Equip Best", "Automatically equip best pets", false, function()
+end);
+
+local FarmingSection4 = SecondTab:AddSection("Automation Favorite", false);
+
+FuncsV3:Toggle(FarmingSection4, "Auto Hatch", "Automatically hatch ready eggs", false, function()
+end);
+
+local FarmingSection5 = SecondTab:AddSection("Automation Fuse Machine", false);
+
+FuncsV3:Toggle(FarmingSection5, "Auto Hatch", "Automatically hatch ready eggs", false, function()
+end);
+
+local FarmingSection6 = SecondTab:AddSection("The Rift and the Abysal Overlord", false);
+
+FuncsV3:Toggle(FarmingSection6, "Auto Hatch", "Automatically hatch ready eggs", false, function()
+end);
+
+local FarmingSection7 = SecondTab:AddSection("Automation Sell", false);
+
+FuncsV3:Toggle(FarmingSection7, "Auto Hatch", "Automatically hatch ready eggs", false, function()
+end);
+
+-- Third tab with all elements
+local ThirdTab = Library:CreateTab({
+    ["Name"] = "Progress",
+});
+
+local ProgressSection = ThirdTab:AddSection("Automation Progression", false);
+
+FuncsV3:Toggle(ProgressSection, "Auto Buy Trail", "Automatically hatch ready eggs", false, function()
+end);
+
+FuncsV3:Toggle(ProgressSection, "Auto Upgrade Base", "Automatically hatch ready eggs", false, function()
+end);
+
+FuncsV3:Toggle(ProgressSection, "Auto Upgrade Treadmill", "Automatically hatch ready eggs", false, function()
+end);
+
+FuncsV3:Toggle(ProgressSection, "Auto Claim", "Automatically hatch ready eggs", false, function()
+end);
+
+
+-- Fourth tab with all elements
+local FourthTab = Library:CreateTab({
+    ["Name"] = "Predictor",
+});
+
+local PredictorSection = FourthTab:AddSection("Pet Predictor", false);
+
+FuncsV3:Toggle(PredictorSection, "Pet Predictor", "Automatically hatch ready eggs", false, function()
+end);
+
+local PredictorSection1 = FourthTab:AddSection("Fuse Predictor", false);
+
+FuncsV3:Toggle(PredictorSection1, "Fuse Predictor", "Automatically hatch ready eggs", false, function()
+end);
+
+-- Fifth tab with all elements
+local FifthTab = Library:CreateTab({
+    ["Name"] = "ESP",
+});
+
+local ESPSection = FifthTab:AddSection("ESP", false);
+
+FuncsV3:Toggle(ESPSection, "ESP Eggs", "Automatically hatch ready eggs", false, function()
+end);
+
+FuncsV3:Toggle(ESPSection, "ESP Rare Eggs", "Automatically hatch ready eggs", false, function()
+end);
+
+FuncsV3:Toggle(ESPSection, "ESP Guards", "Automatically hatch ready eggs", false, function()
+end);
+
+local ESPSection1 = FifthTab:AddSection("Guard Safety", false);
+
+FuncsV3:Toggle(ESPSection1, "Guard Warning", "Automatically hatch ready eggs", false, function()
+end);
+
+FuncsV3:Toggle(ESPSection1, "Auto Drop Egg", "Automatically hatch ready eggs", false, function()
+end);
+
+-- Sixth tab with all elements
+local SixTab = Library:CreateTab({
+    ["Name"] = "Misc",
+});
+
+local MiscSection = SixTab:AddSection("Server", false);
+
+FuncsV3:Toggle(MiscSection, "Guard Warning", "Automatically hatch ready eggs", false, function()
+end);
+
+local MiscSection1 = SixTab:AddSection("Player", false);
+
+FuncsV3:Toggle(MiscSection1, "Guard Warning", "Automatically hatch ready eggs", false, function()
+end);
+
+local MiscSection2 = SixTab:AddSection("Performance", false);
+
+FuncsV3:Toggle(MiscSection2, "Auto Drop Egg", "Automatically hatch ready eggs", false, function()
+end);
+
+-- Seven tab with all elements
+local SevenTab = Library:CreateTab({
+    ["Name"] = "Settings",
+});
+
+local SettingsSection = SevenTab:AddSection("Webhook", false);
+
+FuncsV3:Toggle(SettingsSection, "Guard Warning", "Automatically hatch ready eggs", false, function()
+end);
+
+local SettingsSection2 = SevenTab:AddSection("Reset Config", false);
+
+FuncsV3:Toggle(SettingsSection2, "Guard Warning", "Automatically hatch ready eggs", false, function()
+end);
+
+-- Eight tab with all elements
+local EightTab = Library:CreateTab({
+    ["Name"] = "Settings Ui",
+});
+
+local SettingsuiSection = EightTab:AddSection("Discord", true);
+
+FuncsV3:Button(SettingsuiSection, "Discord invite", "Copy invite link", function()
+end);
