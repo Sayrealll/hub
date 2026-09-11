@@ -2128,8 +2128,28 @@ end);
 
 local FarmingSection3 = SecondTab:AddSection("Automation Hatch & Equip", false);
 
-FuncsV3:Toggle(FarmingSection3, "Auto Hatch", "Automatically hatch ready eggs", false, function()
-end);
+--FuncsV3:Toggle(FarmingSection3, "Auto Hatch", "Automatically hatch ready eggs", false, function()
+--end);
+
+local isAutoHatching = false
+
+FuncsV3:Toggle(FarmingSection3, "Auto Hatch", "Automatically hatch ready eggs", false, function(Value)
+    isAutoHatching = Value
+
+    if isAutoHatching then
+        loadModules()
+
+        task.spawn(function()
+            while isAutoHatching do
+                pcall(runAutoHatch)
+                Notify("Hatch", "Triggered!", 2)
+                task.wait(1) -- Delay between automatic loops
+            end
+        end)
+    else
+        Notify("Auto Hatch", "Disabled", 2)
+    end
+end)
 
 FuncsV3:Toggle(FarmingSection3, "Auto Equip Best", "Automatically equip best pets", false, function()
 end);
