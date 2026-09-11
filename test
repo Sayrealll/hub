@@ -234,7 +234,13 @@ local SecondTab = Library:CreateTab({
     ["Icon"] = "rbxassetid://10723407389"
 });
 
-local FarmingSection = SecondTab:AddSection("Discord", true);
+local FarmingSection = SecondTab:AddSection("Automation Steal", true);
+
+FuncsV3:Toggle(FarmingSection, "Auto Steal", "Automatically steal eggs from areas", true, function(value)
+end);
+
+FuncsV3:Toggle(FarmingSection, "Prioritize Rift Recipe Eggs", "Prioritize stealing eggs needed for active Rift trade in sacrifice", true, function(value)
+end);
 
 FuncsV3:Button(FarmingSection, "Discord invite", "Copy invite link", function()
 end);
