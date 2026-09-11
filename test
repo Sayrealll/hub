@@ -323,3 +323,13 @@ local SettingsuiSection = EightTab:AddSection("Discord", true);
 FuncsV3:Button(SettingsuiSection, "Discord invite", "Copy invite link", function()
 end);
 
+-- Eight tab with all elements
+local EightTab = Library:CreateTab({
+    ["Name"] = "Settings Ui",
+});
+
+local SettingsuiSection = EightTab:AddSection("Discord", true);
+
+FuncsV3:Button(SettingsuiSection, "Discord invite", "Copy invite link", function()
+end);
+
