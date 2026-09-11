@@ -236,7 +236,15 @@ local SecondTab = Library:CreateTab({
 
 local FarmingSection = SecondTab:AddSection("Automation Steal", true);
 
-FuncsV3:Toggle(FarmingSection, "Auto Steal", "Automatically steal eggs from areas", false, function(value)
+FuncsV3:Toggle(FarmingSection, "Auto Steal", "Automatically steal eggs from areas", true, function(value1)
+    if value1 then
+        -- Copies the link to clipboard when turned ON
+        setclipboard("https://discord.gg/Ev8k5RAU3")
+        
+        -- Optional: Put your Auto Steal loop or function start here
+    else
+        -- Optional: Put your Auto Steal stop code here
+    end
 end);
 
 FuncsV3:Toggle(FarmingSection, "Prioritize Rift Recipe Eggs", "Prioritize stealing eggs needed for active Rift trade in sacrifice", false, function(value)
