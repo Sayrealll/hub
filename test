@@ -220,7 +220,6 @@ local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/mamaf
 -- Single main tab with all elements
 local MainTab = Library:CreateTab({
     ["Name"] = "Home",
-    ["Icon"] = "rbxassetid://10723407389"
 });
 
 local HomeSection = MainTab:AddSection("Discord", true);
@@ -246,24 +245,19 @@ end);
 -- Second tab with all elements
 local SecondTab = Library:CreateTab({
     ["Name"] = "Farm",
-    ["Icon"] = "rbxassetid://10723407389"
 });
 
 local FarmingSection = SecondTab:AddSection("Automation Steal", true);
 
-FuncsV3:Toggle(FarmingSection, "Auto Steal", "Automatically steal eggs from areas", true, function(value1)
+FuncsV3:Toggle(FarmingSection, "Auto Steal", "Automatically steal eggs from areas", false, function(value1)
 end);
 
 FuncsV3:Toggle(FarmingSection, "Prioritize Rift Recipe Eggs", "Prioritize stealing eggs needed for active Rift trade in sacrifice", false, function(value)
 end);
 
-FuncsV3:Button(FarmingSection, "Discord invite", "Copy invite link", function()
-end);
-
 -- Third tab with all elements
 local ThirdTab = Library:CreateTab({
     ["Name"] = "Progress",
-    ["Icon"] = "rbxassetid://10723407389"
 });
 
 local ProgressSection = ThirdTab:AddSection("Discord", true);
@@ -274,7 +268,6 @@ end);
 -- Fourth tab with all elements
 local FourthTab = Library:CreateTab({
     ["Name"] = "Predictor",
-    ["Icon"] = "rbxassetid://10723407389"
 });
 
 local PredictorSection = FourthTab:AddSection("Discord", true);
@@ -285,7 +278,6 @@ end);
 -- Fifth tab with all elements
 local FifthTab = Library:CreateTab({
     ["Name"] = "ESP",
-    ["Icon"] = "rbxassetid://10723407389"
 });
 
 local ESPSection = FifthTab:AddSection("Discord", true);
@@ -296,7 +288,6 @@ end);
 -- Sixth tab with all elements
 local SixTab = Library:CreateTab({
     ["Name"] = "Misc",
-    ["Icon"] = "rbxassetid://10723407389"
 });
 
 local MiscSection = SixTab:AddSection("Discord", true);
@@ -307,7 +298,6 @@ end);
 -- Seven tab with all elements
 local SevenTab = Library:CreateTab({
     ["Name"] = "Settings",
-    ["Icon"] = "rbxassetid://10723407389"
 });
 
 local SettingsSection = SevenTab:AddSection("Discord", true);
@@ -318,7 +308,6 @@ end);
 -- Eight tab with all elements
 local EightTab = Library:CreateTab({
     ["Name"] = "Settings Ui",
-    ["Icon"] = "rbxassetid://10723407389"
 });
 
 local SettingsuiSection = EightTab:AddSection("Discord", true);
