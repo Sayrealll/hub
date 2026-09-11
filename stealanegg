@@ -22,34 +22,34 @@ FuncsV3:Button(HomeSection, "Discord invite", "Copy invite link", function()
 end);
 
 -- Second tab with all elements
-local AutoFarm = Library:CreateTab({
+local SecondTab = Library:CreateTab({
     ["Name"] = "Farm",
     ["Icon"] = "rbxassetid://10723407389"
 });
 
-local FarmingSection = AutoFarm:AddSection("Discord", true);
+local FarmingSection = SecondTab:AddSection("Discord", true);
 
 FuncsV3:Button(FarmingSection, "Discord invite", "Copy invite link", function()
 end);
 
 -- Third tab with all elements
-local Progress = Library:CreateTab({
+local ThirdTab = Library:CreateTab({
     ["Name"] = "Progress",
     ["Icon"] = "rbxassetid://10723407389"
 });
 
-local ProgressSection = AutoFarm:AddSection("Discord", true);
+local ProgressSection = ThirdTab:AddSection("Discord", true);
 
 FuncsV3:Button(ProgressSection, "Discord invite", "Copy invite link", function()
 end);
 
 -- Fourth tab with all elements
-local Predictor = Library:CreateTab({
+local FourthTab = Library:CreateTab({
     ["Name"] = "Predictor",
     ["Icon"] = "rbxassetid://10723407389"
 });
 
-local PredictorSelection = AutoFarm:AddSection("Discord", true);
+local PredictorSection = FourthTab:AddSection("Discord", true);
 
-FuncsV3:Button(PredictorSelection, "Discord invite", "Copy invite link", function()
+FuncsV3:Button(PredictorSection, "Discord invite", "Copy invite link", function()
 end);
