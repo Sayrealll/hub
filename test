@@ -377,7 +377,7 @@ end);
 
 local MiscSection2 = SixTab:AddSection("Performance", false);
 
-FuncsV3:Toggle(ESPSection2, "Auto Drop Egg", "Automatically hatch ready eggs", false, function()
+FuncsV3:Toggle(MiscSection2, "Auto Drop Egg", "Automatically hatch ready eggs", false, function()
 end);
 
 -- Seven tab with all elements
