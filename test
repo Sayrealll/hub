@@ -213,7 +213,7 @@ loadstring(game:HttpGet("https://raw.githubusercontent.com/AhmadV99/Speed-Hub-X/
 local FuncsV3 = loadstring(game:HttpGet("https://raw.githubusercontent.com/AhmadV99/Main/main/Library/Example/FuncsV3"))();
 local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/mamafoni281/Speed-hub-x-V5.0-Library/refs/heads/main/Speed-Hub-X-5.0-Library-Source"))():CreateWindow({
     ["Tab Width"] = 250,
-    ["Description"] = " LUNA HUB X  | STEAL AN EGG |  v1.1 ",
+    ["Description"] = " LUNA HUB X  | STEAL AN EGG |  v1.2 ",
     ["Title"] = ""
 });
 
@@ -258,9 +258,7 @@ local FarmingSection1 = SecondTab:AddSection("Automation Place Egg", true);
 FuncsV3:Toggle(FarmingSection1, "Auto Place Egg", "Place all unplaced egg in your pen", false, function(value1)
 end);
 
--- INAYOS: Ginamit ang Option/DropdownV2 method na sakto sa FuncsV3 library
-FuncsV3:Option(FarmingSection1, "Place Egg priority", "Pumili ng priority sa pag-place ng egg", {"Choose Any Egg", "Highest KG", "Lowest KG", "Highest Money", "Lowest Money"}, "Choose Any Egg", "PlaceEggPriorityFlag", function(selected)
-    print("Selected: " .. tostring(selected))
+FuncsV3:DropdownV2(FarmingSection1, "Place Egg priority", "Pumili ng priority", {"Choose Any Egg", "Highest KG", "Lowest KG", "Highest Money", "Lowest Money"}, "Choose Any Egg", function(selected)
 end);
 
 -- Third tab with all elements
