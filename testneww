@@ -2128,9 +2128,6 @@ end);
 
 local FarmingSection3 = SecondTab:AddSection("Automation Hatch & Equip", false);
 
---FuncsV3:Toggle(FarmingSection3, "Auto Hatch", "Automatically hatch ready eggs", false, function()
---end);
-
 local isAutoHatching = false
 
 FuncsV3:Toggle(FarmingSection3, "Auto Hatch", "Automatically hatch ready eggs", false, function(Value)
@@ -2245,8 +2242,10 @@ end);
 
 local MiscSection1 = SixTab:AddSection("Player", false);
 
-FuncsV3:Toggle(MiscSection1, "Guard Warning", "Automatically hatch ready eggs", false, function()
-end);
+FuncsV3:Toggle(MiscSection1, "Anti AFK", "Prevent automatic kick", true, function(v)
+    State.antiAfk = v
+    setAntiAfk(v)
+end)
 
 local MiscSection2 = SixTab:AddSection("Performance", false);
 
