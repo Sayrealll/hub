@@ -224,9 +224,9 @@ local MainTab = Library:CreateTab({
 });
 
 local HomeSection = MainTab:AddSection("Discord", true);
-FuncsV3:Button(HomeSection, "Discord invite", "Copy invite link", dc()
 
-    local success, err = pcall(dc()
+FuncsV3:Button(HomeSection, "Discord invite", "Copy invite link", function()
+    local success, err = pcall(function()
         setclipboard("https://discord.gg/Ev8k5RAU3")
     end)
 
