@@ -255,9 +255,9 @@ end);
 FuncsV3:Toggle(FarmingSection, "Prioritize Rift Recipe Eggs", "Prioritize stealing eggs needed for active Rift trade in sacrifice", false, function(value)
 end);
 
-local FarmingSection1 = SecondTab:AddSection("Automation Place Egg", true);
+local FarmingSection = SecondTab:AddSection("Automation Place Egg", true);
 
-FuncsV3:Toggle(FarmingSection1, "Auto Place Egg", "Place all unplaced egg in your pen", false, function(value1)
+FuncsV3:Toggle(FarmingSection, "Auto Place Egg", "Place all unplaced egg in your pen", false, function(value1)
 end);
 
 FuncsV3:Dropdown(FarmingSection1, "Place Egg priority", "Pumili ng priority sa pag-place ng egg", {"Choose Any Egg", "Highest KG", "Lowest KG", "Highest Money", "Lowest Money"}, "Choose Any Egg", function(selected)
