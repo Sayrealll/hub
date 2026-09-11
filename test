@@ -326,7 +326,7 @@ local FourthTab = Library:CreateTab({
     ["Name"] = "Predictor",
 });
 
-local PredictorSection = ThirdTab:AddSection("Pet Predictor", false);
+local PredictorSection = FourthTab:AddSection("Pet Predictor", false);
 
 FuncsV3:Toggle(PredictorSection, "Pet Predictor", "Automatically hatch ready eggs", false, function()
 end);
@@ -341,15 +341,7 @@ local FifthTab = Library:CreateTab({
     ["Name"] = "ESP",
 });
 
-local ESPSection = FifthTab:AddSection("ESP", true);
-
-FuncsV3:Toggle(ESPSection, "ESP Eggs", "Automatically hatch ready eggs", false, function()
-end);
-
-FuncsV3:Toggle(ESPSection, "ESP Rare Eggs", "Automatically hatch ready eggs", false, function()
-end);
-
-local ESPSection = FifthTab:AddSection("ESP", true);
+local ESPSection = FifthTab:AddSection("ESP", false);
 
 FuncsV3:Toggle(ESPSection, "ESP Eggs", "Automatically hatch ready eggs", false, function()
 end);
@@ -360,7 +352,7 @@ end);
 FuncsV3:Toggle(ESPSection, "ESP Guards", "Automatically hatch ready eggs", false, function()
 end);
 
-local ESPSection1 = FifthTab:AddSection("Guard Safety", true);
+local ESPSection1 = FifthTab:AddSection("Guard Safety", false);
 
 FuncsV3:Toggle(ESPSection1, "Guard Warning", "Automatically hatch ready eggs", false, function()
 end);
@@ -383,9 +375,9 @@ local MiscSection1 = SixTab:AddSection("Player", false);
 FuncsV3:Toggle(MiscSection1, "Guard Warning", "Automatically hatch ready eggs", false, function()
 end);
 
-local MiscSection1 = SixTab:AddSection("Performance", false);
+local MiscSection2 = SixTab:AddSection("Performance", false);
 
-FuncsV3:Toggle(ESPSection1, "Auto Drop Egg", "Automatically hatch ready eggs", false, function()
+FuncsV3:Toggle(ESPSection2, "Auto Drop Egg", "Automatically hatch ready eggs", false, function()
 end);
 
 -- Seven tab with all elements
@@ -398,9 +390,9 @@ local SettingsSection = SevenTab:AddSection("Webhook", false);
 FuncsV3:Toggle(SettingsSection, "Guard Warning", "Automatically hatch ready eggs", false, function()
 end);
 
-local SettingsSection1 = SixTab:AddSection("Reset Config", false);
+local SettingsSection2 = SevenTab:AddSection("Reset Config", false);
 
-FuncsV3:Toggle(SettingsSection1, "Guard Warning", "Automatically hatch ready eggs", false, function()
+FuncsV3:Toggle(SettingsSection2, "Guard Warning", "Automatically hatch ready eggs", false, function()
 end);
 
 -- Eight tab with all elements
