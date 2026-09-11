@@ -213,7 +213,7 @@ loadstring(game:HttpGet("https://raw.githubusercontent.com/AhmadV99/Speed-Hub-X/
 local FuncsV3 = loadstring(game:HttpGet("https://raw.githubusercontent.com/AhmadV99/Main/main/Library/Example/FuncsV3"))();
 local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/mamafoni281/Speed-hub-x-V5.0-Library/refs/heads/main/Speed-Hub-X-5.0-Library-Source"))():CreateWindow({
     ["Tab Width"] = 250,
-    ["Description"] = " LUNA HUB X   | STEAL AN EGG |  v1.12 ",
+    ["Description"] = " LUNA HUB X   | STEAL AN EGG |  v1.13 ",
     ["Title"] = ""
 });
 
@@ -262,7 +262,7 @@ end);
 
 --end);
 
-local FarmingSection2 = SecondTab:AddSection("Automation Treadmill", true);
+local FarmingSection2 = SecondTab:AddSection("Automation Treadmill", false);
 
 FuncsV3:Toggle(FarmingSection2, "Auto Treadmill", "Train on treadmill for speed power", false, function(value1)
 end);
@@ -273,7 +273,7 @@ end);
 FuncsV3:Button(FarmingSection2, "Exit From Treadmill", "Clear treadmill effects & jump off", function()
 end);
 
-local FarmingSection3 = SecondTab:AddSection("Automation Hatch & Equip", true);
+local FarmingSection3 = SecondTab:AddSection("Automation Hatch & Equip", false);
 
 FuncsV3:Toggle(FarmingSection3, "Auto Hatch", "Automatically hatch ready eggs", false, function()
 end);
@@ -281,22 +281,22 @@ end);
 FuncsV3:Toggle(FarmingSection3, "Auto Equip Best", "Automatically equip best pets", false, function()
 end);
 
-local FarmingSection4 = SecondTab:AddSection("Automation Favorite", true);
+local FarmingSection4 = SecondTab:AddSection("Automation Favorite", false);
 
 FuncsV3:Toggle(FarmingSection4, "Auto Hatch", "Automatically hatch ready eggs", false, function()
 end);
 
-local FarmingSection5 = SecondTab:AddSection("Automation Fuse Machine", true);
+local FarmingSection5 = SecondTab:AddSection("Automation Fuse Machine", false);
 
 FuncsV3:Toggle(FarmingSection5, "Auto Hatch", "Automatically hatch ready eggs", false, function()
 end);
 
-local FarmingSection6 = SecondTab:AddSection("The Rift and the Abysal Overlord", true);
+local FarmingSection6 = SecondTab:AddSection("The Rift and the Abysal Overlord", false);
 
 FuncsV3:Toggle(FarmingSection6, "Auto Hatch", "Automatically hatch ready eggs", false, function()
 end);
 
-local FarmingSection7 = SecondTab:AddSection("Automation Sell", true);
+local FarmingSection7 = SecondTab:AddSection("Automation Sell", false);
 
 FuncsV3:Toggle(FarmingSection7, "Auto Hatch", "Automatically hatch ready eggs", false, function()
 end);
@@ -306,19 +306,34 @@ local ThirdTab = Library:CreateTab({
     ["Name"] = "Progress",
 });
 
-local ProgressSection = ThirdTab:AddSection("Discord", true);
+local ProgressSection = ThirdTab:AddSection("Automation Progression", false);
 
-FuncsV3:Button(ProgressSection, "Discord invite", "Copy invite link", function()
+FuncsV3:Toggle(ProgressSection, "Auto Buy Trail", "Automatically hatch ready eggs", false, function()
 end);
+
+FuncsV3:Toggle(ProgressSection, "Auto Upgrade Base", "Automatically hatch ready eggs", false, function()
+end);
+
+FuncsV3:Toggle(ProgressSection, "Auto Upgrade Treadmill", "Automatically hatch ready eggs", false, function()
+end);
+
+FuncsV3:Toggle(ProgressSection, "Auto Claim", "Automatically hatch ready eggs", false, function()
+end);
+
 
 -- Fourth tab with all elements
 local FourthTab = Library:CreateTab({
     ["Name"] = "Predictor",
 });
 
-local PredictorSection = FourthTab:AddSection("Discord", true);
+local PredictorSection = FourthTab:AddSection("Pet Predictor", false);
 
-FuncsV3:Button(PredictorSection, "Discord invite", "Copy invite link", function()
+FuncsV3:Toggle(ProgressSection, "Pet Predictor", "Automatically hatch ready eggs", false, function()
+end);
+
+local PredictorSection1 = FourthTab:AddSection("Fuse Predictor", false);
+
+FuncsV3:Toggle(ProgressSection1, "Fuse Predictor", "Automatically hatch ready eggs", false, function()
 end);
 
 -- Fifth tab with all elements
@@ -326,9 +341,31 @@ local FifthTab = Library:CreateTab({
     ["Name"] = "ESP",
 });
 
-local ESPSection = FifthTab:AddSection("Discord", true);
+local ESPSection = FifthTab:AddSection("ESP", true);
 
-FuncsV3:Button(ESPSection, "Discord invite", "Copy invite link", function()
+FuncsV3:Toggle(ESPSection, "ESP Eggs", "Automatically hatch ready eggs", false, function()
+end);
+
+FuncsV3:Toggle(ESPSection, "ESP Rare Eggs", "Automatically hatch ready eggs", false, function()
+end);
+
+local ESPSection = FifthTab:AddSection("ESP", true);
+
+FuncsV3:Toggle(ESPSection, "ESP Eggs", "Automatically hatch ready eggs", false, function()
+end);
+
+FuncsV3:Toggle(ESPSection, "ESP Rare Eggs", "Automatically hatch ready eggs", false, function()
+end);
+
+FuncsV3:Toggle(ESPSection, "ESP Guards", "Automatically hatch ready eggs", false, function()
+end);
+
+local ESPSection1 = FifthTab:AddSection("Guard Safety", true);
+
+FuncsV3:Toggle(ESPSection1, "Guard Warning", "Automatically hatch ready eggs", false, function()
+end);
+
+FuncsV3:Toggle(ESPSection1, "Auto Drop Egg", "Automatically hatch ready eggs", false, function()
 end);
 
 -- Sixth tab with all elements
@@ -336,9 +373,19 @@ local SixTab = Library:CreateTab({
     ["Name"] = "Misc",
 });
 
-local MiscSection = SixTab:AddSection("Discord", true);
+local MiscSection = SixTab:AddSection("Server", false);
 
-FuncsV3:Button(MiscSection, "Discord invite", "Copy invite link", function()
+FuncsV3:Toggle(MiscSection, "Guard Warning", "Automatically hatch ready eggs", false, function()
+end);
+
+local MiscSection1 = SixTab:AddSection("Player", false);
+
+FuncsV3:Toggle(MiscSection1, "Guard Warning", "Automatically hatch ready eggs", false, function()
+end);
+
+local MiscSection1 = SixTab:AddSection("Performance", false);
+
+FuncsV3:Toggle(ESPSection1, "Auto Drop Egg", "Automatically hatch ready eggs", false, function()
 end);
 
 -- Seven tab with all elements
@@ -346,9 +393,14 @@ local SevenTab = Library:CreateTab({
     ["Name"] = "Settings",
 });
 
-local SettingsSection = SevenTab:AddSection("Discord", true);
+local SettingsSection = SevenTab:AddSection("Webhook", false);
 
-FuncsV3:Button(SettingsSection, "Discord invite", "Copy invite link", function()
+FuncsV3:Toggle(SettingsSection, "Guard Warning", "Automatically hatch ready eggs", false, function()
+end);
+
+local SettingsSection1 = SixTab:AddSection("Reset Config", false);
+
+FuncsV3:Toggle(SettingsSection1, "Guard Warning", "Automatically hatch ready eggs", false, function()
 end);
 
 -- Eight tab with all elements
