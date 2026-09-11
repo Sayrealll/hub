@@ -226,11 +226,9 @@ local HomeSection = MainTab:AddSection("Discord", true);
 
 FuncsV3:Button(HomeSection, "Discord invite", "Copy invite link", function()
     local success, err = pcall(function()
-        -- Fallback mock for testing inside Roblox Studio
         if type(setclipboard) == "function" then
             setclipboard("https://discord.gg/Ev8k5RAU3")
         else
-            -- Print fallback message inside Studio output
             print("[Studio Mock Clipboard] https://discord.gg/Ev8k5RAU3")
         end
     end)
@@ -260,7 +258,9 @@ local FarmingSection1 = SecondTab:AddSection("Automation Place Egg", true);
 FuncsV3:Toggle(FarmingSection1, "Auto Place Egg", "Place all unplaced egg in your pen", false, function(value1)
 end);
 
-FuncsV3:Dropdown(FarmingSection1, "Place Egg priority", "Pumili ng priority sa pag-place ng egg", {"Choose Any Egg", "Highest KG", "Lowest KG", "Highest Money", "Lowest Money"}, "Choose Any Egg", function(selected)
+-- INAYOS: Ginamit ang Option/DropdownV2 method na sakto sa FuncsV3 library
+FuncsV3:Option(FarmingSection1, "Place Egg priority", "Pumili ng priority sa pag-place ng egg", {"Choose Any Egg", "Highest KG", "Lowest KG", "Highest Money", "Lowest Money"}, "Choose Any Egg", "PlaceEggPriorityFlag", function(selected)
+    print("Selected: " .. tostring(selected))
 end);
 
 -- Third tab with all elements
@@ -327,6 +327,11 @@ end);
 local lol = Library:CreateTab({
     ["Name"] = "Settings Ui",
 });
+
+local SettingsuiSection1 = lol:AddSection("Discord", true);
+
+FuncsV3:Button(SettingsuiSection1, "Discord invite", "Copy invite link", function()
+end);
 
 local SettingsuiSection1 = lol:AddSection("Discord", true);
 
