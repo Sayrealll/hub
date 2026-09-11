@@ -212,9 +212,9 @@ end
 loadstring(game:HttpGet("https://raw.githubusercontent.com/AhmadV99/Speed-Hub-X/main/Settings.lua"))();
 local FuncsV3 = loadstring(game:HttpGet("https://raw.githubusercontent.com/AhmadV99/Main/main/Library/Example/FuncsV3"))();
 local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/mamafoni281/Speed-hub-x-V5.0-Library/refs/heads/main/Speed-Hub-X-5.0-Library-Source"))():CreateWindow({
-    ["Tab Width"] = 160,
+    ["Tab Width"] = 250,
     ["Description"] = "",
-    ["Title"] = "LUNA HUB | STEAL AN EGG | v1.1"
+    ["Title"] = "LUNA HUB | STEAL AN EGG | v1.2"
 });
 
 -- Single main tab with all elements
@@ -224,8 +224,17 @@ local MainTab = Library:CreateTab({
 });
 
 local HomeSection = MainTab:AddSection("Discord", true);
+FuncsV3:Button(HomeSection, "Discord invite", "Copy invite link", dc()
 
-FuncsV3:Button(HomeSection, "Discord invite", "Copy invite link", function()
+    local success, err = pcall(dc()
+        setclipboard("https://discord.gg/Ev8k5RAU3")
+    end)
+
+    if success then
+        print("Discord link successfully copied to clipboard!")
+    else
+        print("Failed to copy link to clipboard: " .. tostring(err))
+    end
 end);
 
 -- Second tab with all elements
