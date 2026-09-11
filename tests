@@ -222,7 +222,7 @@ local MainTab = Library:CreateTab({
     ["Name"] = "Home",
 });
 
-local HomeSection = MainTab:AddSection("Discord", true);
+local HomeSection = MainTab:AddSection("Discord", false);
 
 FuncsV3:Button(HomeSection, "Discord invite", "Copy invite link", function()
     local success, err = pcall(function()
