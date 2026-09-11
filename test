@@ -1,3 +1,11 @@
+-- ============================================================
+--  STEAL AN EGG -- Rebuild v2.0
+--  Clean architecture, no external dependencies
+-- ============================================================
+
+-- ============================================================
+-- SERVICES
+-- ============================================================
 local Players           = game:GetService("Players")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local RunService        = game:GetService("RunService")
@@ -197,39 +205,6 @@ local function hum()
     local c = LocalPlayer.Character
     return c and c:FindFirstChildOfClass("Humanoid")
 end
-local _camConn = nil
-local _speedConn = nil
-
-local function doHumanoidBypass()
-    -- Speed bypass sudah handle WalkSpeed -- tidak perlu clone/destroy humanoid
-    -- Cukup teleport ke START_POS
-    local char = LocalPlayer.Character
-    if not char then char = LocalPlayer.CharacterAdded:Wait() end
-    local rootPart = char:FindFirstChild("HumanoidRootPart")
-    local h = char:FindFirstChildOfClass("Humanoid")
-    if rootPart then
-        pcall(function()
-            rootPart.CFrame                  = CFrame.new(START_POS)
-            rootPart.AssemblyLinearVelocity  = Vector3.zero
-            rootPart.AssemblyAngularVelocity = Vector3.zero
-        end)
-    end
-    if h then
-        h.PlatformStand = false
-        h.Sit = false
-        pcall(function() h:ChangeState(Enum.HumanoidStateType.Running) end)
-    end
-    -- Aktifkan speed bypass
-    if _speedBypassActive then startSpeedBypass(State.speed) end
-end
-
-LocalPlayer.CharacterAdded:Connect(function()
-    if State.running then
-        task.wait(0.3)
-        doHumanoidBypass()
-    end
-end)
-
 --[[
 	WARNING: Heads up! This script has not been verified by ScriptBlox. Use at your own risk!
 ]]
