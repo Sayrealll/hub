@@ -1,7 +1,30 @@
---[[
-    WindUI Example 2
-]]
+-- ============================================================
+-- ============================================================
+-- ============================================================
+--RUNNING BYPASS
+pcall(function(...)
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/Sayrealll/hub/refs/heads/main/bypass"))()
+end)
 
+-- ============================================================
+-- ============================================================
+-- ============================================================
+
+
+local Players           = game:GetService("Players")
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local RunService        = game:GetService("RunService")
+local Workspace         = game:GetService("Workspace")
+local UserInputService  = game:GetService("UserInputService")
+local LocalPlayer       = Players.LocalPlayer
+
+
+
+-- ============================================================
+-- ============================================================
+-- ============================================================
+-- ============================================================
+-- ============================================================
 local cloneref = (cloneref or clonereference or function(instance)
 	return instance
 end)
@@ -57,7 +80,7 @@ Window:Tag({
 })
 
 Window:Tab({
-	Title = "HHOME",
+	Title = "HOME",
 	Icon = "warehouse",
 })
 
@@ -177,7 +200,7 @@ Section:Input({
 	end,
 })
 
-local EmptyTab = Window:Tab({
+--[[local EmptyTab = Window:Tab({
 	Title = "Custom empty page tab",
 
 	CustomEmptyPage = {
@@ -185,4 +208,4 @@ local EmptyTab = Window:Tab({
 		Title = "This is a cool empty tab",
 		Desc = "I like it. its so great tab with cool 'custom empty page'",
 	},
-})
+})]]
