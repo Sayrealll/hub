@@ -58,6 +58,7 @@ function utility:findfunction(nups, linedefined)
     return nil
 end
 
+
 function utility:initbypass()
     self.LocalPlayer = self.Players.LocalPlayer
     if not self.LocalPlayer then
