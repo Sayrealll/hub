@@ -31,8 +31,8 @@ end
 local ThemeName = "Dark"
 
 local Window = WindUI:CreateWindow({
-	Title = "WindUI Library",
-	Author = "by .ftgs",
+	Title = " LUNA HUB X ",
+	Author = " STEAL AN EGG ",
 	Icon = "solar:wind-bold",
 	Theme = ThemeName,
 	--NewElements = true,
@@ -52,27 +52,33 @@ local Window = WindUI:CreateWindow({
 })
 
 Window:Tag({
-	Title = "v1.6.64-fix",
+	Title = "v1.0.0",
 	Color = "ElementBackground",
 })
 
 Window:Tab({
-	Title = "Main",
+	Title = "HHOME",
 	Icon = "warehouse",
 })
 
-Window:Section({
+--[[Window:Section({
 	Title = "Silent",
 })
+	]]
 
 local Tab1 = Window:Tab({
-	Title = "Exploits",
+	Title = "FARM",
 	Icon = "terminal",
 })
 
 Window:Tab({
-	Title = "Aimbot",
+	Title = "PROGRESS",
 	Icon = "locate-fixed",
+})
+
+Window:Tab({
+	Title = "PREDICTOR",
+	Icon = "eye",
 })
 
 Window:Tab({
@@ -80,10 +86,17 @@ Window:Tab({
 	Icon = "eye",
 })
 
-local InfoTab = Window:Tab({
-	Title = "Info",
+Window:Tab({
+	Title = "SETTINGS",
+	Icon = "eye",
+})
+
+
+--[[local InfoTab = Window:Tab({
+	Title = "ESP",
 	Icon = "badge-info",
 })
+
 
 InfoTab:Paragraph({
 	Title = "WindUI",
@@ -131,6 +144,7 @@ VStackRight:Button({
 		print("Rejoining place...")
 	end,
 })
+]]
 
 local Section = Tab1:Section({
 	Title = "Hi1",
