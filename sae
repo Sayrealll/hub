@@ -4343,11 +4343,16 @@ local secondaryUDim = UDim
 local CreateWindow = createWindowResult.CreateWindow
 local uDim = secondaryUDim.new(0, 14)
 
+
+
+
+
+
 windowResult.Window = CreateWindow(createWindowResult, {
-	Title = "ThanhDuyHub / Steal An Egg",
+	Title = "LUNA HUB X",
 	Icon = "egg",
-	Author = "ThanhDuy",
-	Folder = "ThanhDuyHub",
+	Author = "STEAL AN EGG",
+	Folder = "LUNA HUB X",
 	Size = size,
 	Transparent = true,
 	Theme = "Dark",
@@ -4356,7 +4361,7 @@ windowResult.Window = CreateWindow(createWindowResult, {
 	NewElements = true,
 	OpenButton = {
 		Enabled = true,
-		Title = "ThanhDuyHub",
+		Title = "LUNA HUB X",
 		Draggable = true,
 		OnlyMobile = false,
 		CornerRadius = uDim,
